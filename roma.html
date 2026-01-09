@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NasG Apostolic Academy | Digital Cathedral</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;700&family=Lora:ital,wght@0,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. GLOBAL VARIABLES & THEMES --- */
+        :root {
+            --gold: #d4af37;
+            --gold-glow: #ffdf00;
+            --deep-navy: #050a14;
+            --sacred-white: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background: var(--deep-navy);
+            color: var(--sacred-white);
+            font-family: 'Lora', serif;
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        /* --- 2. SACRED BACKGROUND ANIMATION --- */
+        #sacred-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .floating-cross {
+            position: absolute; color: var(--gold); opacity: 0.1;
+            animation: sacredRise 20s linear infinite;
+        }
+        @keyframes sacredRise {
+            0% { transform: translateY(110vh) rotateY(0deg); opacity: 0; }
+            20% { opacity: 0.2; }
+            80% { opacity: 0.2; }
+            100% { transform: translateY(-20vh) rotateY(360deg); opacity: 0; }
+        }
+
+        /* --- 3. NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 25px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+        .logo { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 1.8rem; letter-spacing: 3px; }
+        
+        /* --- 4. HERO SECTION --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 20px;
+        }
+        .hero h1 {
+            font-family: 'Cinzel Decorative'; font-size: clamp(3rem, 12vw, 7rem);
+            color: var(--gold); text-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+            margin-bottom: 20px;
+        }
+        .bible-verse {
+            max-width: 700px; font-style: italic; font-size: 1.4rem;
+            border-left: 4px solid var(--gold); padding: 0 30px;
+            margin: 30px 0; color: #cbd5e1;
+        }
+
+        /* --- 5. APP-STYLE GRID --- */
+        .dashboard {
+            max-width: 1400px; margin: -100px auto 100px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px; padding: 0 40px;
+        }
+        .holy-card {
+            background: var(--glass); backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 45px;
+            padding: 70px 40px; text-align: center; cursor: pointer;
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .holy-card:hover {
+            transform: translateY(-25px) scale(1.02);
+            border-color: var(--gold); box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+        }
+        .holy-card i { font-size: 4.5rem; color: var(--gold); margin-bottom: 30px; }
+        .holy-card h3 { font-family: 'Cinzel Decorative'; font-size: 1.6rem; color: var(--gold); }
+
+        /* --- 6. ADVANCED FULL-SCREEN OVERLAY --- */
+        .sacred-panel {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--deep-navy); z-index: 10000; display: none;
+            overflow-y: auto; padding: 120px 40px;
+            animation: panelFade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes panelFade { from { opacity: 0; transform: scale(1.1); } to { opacity: 1; transform: scale(1); } }
+
+        .close-basilica {
+            position: fixed; top: 40px; right: 40px; background: var(--gold);
+            width: 70px; height: 70px; border-radius: 50%; color: black;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem; cursor: pointer; z-index: 10001; transition: 0.4s;
+        }
+        .close-basilica:hover { transform: rotate(90deg) scale(1.2); }
+
+        /* --- 7. CONTENT STYLING --- */
+        .page-content { max-width: 1000px; margin: 0 auto; line-height: 2.3; }
+        .page-content h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 4rem; text-align: center; margin-bottom: 60px; }
+        
+        .holy-section {
+            background: rgba(255, 255, 255, 0.02); padding: 50px;
+            border-radius: 40px; border-left: 8px solid var(--gold); margin-bottom: 50px;
+        }
+        .holy-section h2 { font-family: 'Cinzel Decorative'; color: var(--gold); margin-bottom: 25px; font-size: 2rem; }
+        .holy-section p { font-size: 1.3rem; color: #e2e8f0; margin-bottom: 20px; }
+
+        /* --- 8. CONTACT ELEMENTS --- */
+        .btn-gold {
+            display: inline-block; background: var(--gold); color: black;
+            padding: 18px 45px; border-radius: 50px; text-decoration: none;
+            font-weight: bold; margin-top: 20px; transition: 0.3s;
+        }
+        .btn-gold:hover { background: white; transform: scale(1.1); }
+
+        .wa-float {
+            position: fixed; bottom: 40px; right: 40px; background: #25d366;
+            width: 75px; height: 75px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 38px;
+            color: white; text-decoration: none; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            z-index: 999; transition: 0.3s;
+        }
+        .wa-float:hover { transform: translateY(-10px) rotate(360deg); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .holy-section { padding: 25px; }
+            .dashboard { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sacred-canvas"></div>
+
+    <nav>
+        <div class="logo">NASG ROMA</div>
+        <div class="theme-toggle" style="cursor: pointer; font-size: 1.5rem;" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <p style="letter-spacing: 10px; color: var(--gold);">AD MAIOREM DEI GLORIAM</p>
+        <h1>Basilica ya Kidijitali</h1>
+        <div class="bible-verse">
+            "Wewe ndiwe Petro, na juu ya mwamba huu nitalijenga Kanisa langu, wala milango ya kuzimu haitalishinda." <br>
+            <strong>- Mathayo 16:18</strong>
+        </div>
+        <div style="margin-top: 20px;">
+            <a href="#explore" class="btn-gold" onclick="openPage('kuhusu')">ANZA HISTORIA</a>
+        </div>
+    </section>
+
+    <div class="dashboard" id="explore">
+        <div class="holy-card" onclick="openPage('kuhusu')">
+            <i class="fas fa-church"></i>
+            <h3>Kuhusu Kanisa</h3>
+            <p>Historia ya Mitume, Vatican na Papa.</p>
+        </div>
+        <div class="holy-card" onclick="openPage('sakramenti')">
+            <i class="fas fa-dove"></i>
+            <h3>Sakramenti 7</h3>
+            <p>Milango saba ya neema ya Kristo.</p>
+        </div>
+        <div class="holy-card" onclick="openPage('misa')">
+            <i class="fas fa-fire-alt"></i>
+            <h3>Ibada na Misa</h3>
+            <p>Maana na hatua za kafara ya Misa.</p>
+        </div>
+        <div class="holy-card" onclick="openPage('sala')">
+            <i class="fas fa-pray"></i>
+            <h3>Sala na Rozari</h3>
+            <p>Hazina ya sala kuu na Rozari.</p>
+        </div>
+        <div class="holy-card" onclick="openPage('mafundisho')">
+            <i class="fas fa-scroll"></i>
+            <h3>Mafundisho</h3>
+            <p>Katekisimu na Amri 10 za Mungu.</p>
+        </div>
+        <div class="holy-card" onclick="openPage('watakatifu')"><i class="fas fa-innocent"></i><h3>Watakatifu</h3><p>Mifano ya imani na picha takatifu.</p></div>
+        <div class="holy-card" onclick="openPage('mawasiliano')"><i class="fas fa-envelope"></i><h3>Mawasiliano</h3><p>Tuma maombi yako ya sala leo.</p></div>
+        <div class="holy-card" onclick="openPage('biblia')"><i class="fas fa-book-bible"></i><h3>Biblia Takatifu</h3><p>Neno la Mungu na Mapokeo.</p></div>
+    </div>
+
+    <div id="basilicaOverlay" class="sacred-panel">
+        <div class="close-basilica" onclick="closePage()"><i class="fas fa-times"></i></div>
+        <div id="dynamicContent" class="page-content"></div>
+    </div>
+
+    <a href="https://wa.link/rwi0cs" class="wa-float"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        /* --- JS: FLOATING CROSS ENGINE --- */
+        const canvas = document.getElementById('sacred-canvas');
+        for (let i = 0; i < 40; i++) {
+            const cross = document.createElement('i');
+            cross.className = 'fas fa-cross floating-cross';
+            cross.style.left = Math.random() * 100 + 'vw';
+            cross.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            cross.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            cross.style.animationDelay = (Math.random() * 10) + 's';
+            canvas.appendChild(cross);
+        }
+
+        /* --- JS: SINGLE PAGE APP ENGINE --- */
+        const contentDB = {
+            kuhusu: `
+                <h1>Historia na Upapa 🇻🇦</h1>
+                <div class="holy-section">
+                    <h2>Historia ya Kanisa Katoliki</h2>
+                    <p>Kanisa Katoliki lilianzishwa na Yesu Kristo mwenyewe mnamo mwaka 33 BK. Ni Kanisa la kwanza lililoanzishwa na Mitume, likiongozwa na Mtakatifu Petro kama Papa wa kwanza kule Roma.</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Vatican na Kiti cha Petro</h2>
+                    <p>Mji wa Vatican ndio makao makuu ya Kanisa ulimwenguni. Ni kiti cha Enzi cha Mtume Petro, ishara ya umoja wa waamini wote duniani kote.</p>
+                </div>
+            `,
+            sakramenti: `
+                <h1>Sakramenti 7 Takatifu 🕊️</h1>
+                <div class="holy-section">
+                    <h2>Ubatizo</h2>
+                    <p>Huondoa dhambi ya asili na kutufanya kuwa wana wa Mungu. Huu ni mlango wa kuingilia Kanisani.</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Ekaristi</h2>
+                    <p>Chakula cha safari. Tunapokea Mwili na Damu ya Yesu Kristo kweli chini ya maumbo ya mkate na divai.</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Kitubio (Ungamo)</h2>
+                    <p>Mungu anatupa msamaha wa dhambi zetu kupitia mikono ya Padre. Hurejesha urafiki na Muumba wetu.</p>
+                </div>
+            `,
+            misa: `
+                <h1>Misa Takatifu 🕯️</h1>
+                <div class="holy-section">
+                    <h2>Liturujia ya Neno</h2>
+                    <p>Mungu anazungumza na watu wake. Hapa tunasikiliza masomo, zaburi na Injili takatifu.</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Liturujia ya Ekaristi</h2>
+                    <p>Hapa ndipo moyo wa Misa ulipo. Wakati wa kugeuza, mkate na divai hugeuka kuwa Kristo Mwenyewe.</p>
+                </div>
+            `,
+            sala: `
+                <h1>Sala na Rozari 📿</h1>
+                <div class="holy-section">
+                    <h2>Rozari Takatifu</h2>
+                    <p>Silaha ya kiroho. Kupitia Rozari tunatafakari siri za Furaha, Mwanga, Masikitiko na Utukufu za Mwokozi wetu.</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Sala za Kila Siku</h2>
+                    <p>Baba Yetu, Salamu Maria, Atukuzwe na Malaika wa Bwana. Sala ni hewa ya roho.</p>
+                </div>
+            `,
+            mafundisho: `
+                <h1>Mafundisho na Katekisimu 📜</h1>
+                <div class="holy-section">
+                    <h2>Amri 10 za Mungu</h2>
+                    <p>Sheria hizi kumi ndio dira ya maadili. Zinatufundisha kumpenda Mungu (Amri 1-3) na kumpenda jirani (Amri 4-10).</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Katekisimu</h2>
+                    <p>Mafundisho rasmi ya Kanisa kuhusu imani na maadili ambayo muumini anapaswa kuyafahamu na kuyaishi.</p>
+                </div>
+            `,
+            watakatifu: `
+                <h1>Watakatifu na Picha Takatifu 😇</h1>
+                <div class="holy-section">
+                    <h2>Bikira Maria</h2>
+                    <p>Mama wa Mungu na Mama wa Kanisa. Tunamheshimu kuliko watakatifu wote (Hyperdulia).</p>
+                </div>
+                <div class="holy-section">
+                    <h2>Ushirika wa Watakatifu</h2>
+                    <p>Hatuziabudu picha, bali tunawaheshimu watakatifu walioko mbinguni ambao wanatuombea kwa Mungu daima.</p>
+                </div>
+            `,
+            mawasiliano: `
+                <h1>Mawasiliano na Maombi 🙏</h1>
+                <div class="holy-section">
+                    <h2>Tuma Ombi la Sala</h2>
+                    <p>Je, unahitaji Mapadre na waamini wenzako wakuombee? Tuma hitaji lako sasa.</p>
+                    <p><strong>Barua Pepe:</strong> fryersolo@gmail.com</p>
+                    <a href="https://wa.link/rwi0cs" class="btn-gold">WASILIANA KWA WHATSAPP</a>
+                </div>
+            `,
+            biblia: `
+                <h1>Biblia na Mapokeo 📖</h1>
+                <div class="holy-section">
+                    <h2>Neno la Uzima</h2>
+                    <p>Biblia ya Katoliki ina vitabu 73 vilivyovuviwa na Roho Mtakatifu. Ni mwanga wa miguu yetu.</p>
+                </div>
+            `
+        };
+
+        function openPage(id) {
+            document.getElementById('dynamicContent').innerHTML = contentDB[id];
+            document.getElementById('basilicaOverlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePage() {
+            document.getElementById('basilicaOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            if (body.style.backgroundColor === 'white') {
+                body.style.backgroundColor = 'var(--deep-navy)';
+                body.style.color = 'white';
+            } else {
+                body.style.backgroundColor = 'white';
+                body.style.color = 'black';
+            }
+        }
+    </script>
+</body>
+</html>
